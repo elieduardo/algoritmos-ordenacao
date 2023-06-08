@@ -196,20 +196,21 @@
         // Reorganiza a lista de forma que os elementos menores que o pivô estejam à esquerda e os maiores à direita.
         private static int Particionar(List<int> lista, int inicio, int fim)
         {
-            int meio = (inicio + fim) / 2;
-            int pivo = lista[meio];
-            int i = inicio;
+            int pivo = lista[inicio];
+            int i = inicio + 1;
             int j = fim;
 
             while (i <= j)
             {
-                while (lista[i] < pivo)
+                if (lista[i] <= pivo)
+                {
                     i++;
-
-                while (lista[j] > pivo)
+                }
+                else if (lista[j] >= pivo)
+                {
                     j--;
-
-                if (i <= j)
+                }
+                else
                 {
                     int temp = lista[i];
                     lista[i] = lista[j];
@@ -219,7 +220,11 @@
                 }
             }
 
-            return i;
+            int temp1 = lista[inicio];
+            lista[inicio] = lista[j];
+            lista[j] = temp1;
+
+            return j;
         }
     }
 }
