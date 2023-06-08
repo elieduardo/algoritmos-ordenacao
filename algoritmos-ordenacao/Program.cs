@@ -1,47 +1,52 @@
-﻿using System.Diagnostics;
-
-namespace algoritmos_ordenacao
+﻿namespace algoritmos_ordenacao
 {
-    delegate void MetodoDelegate(List<int> lista);
+    public delegate List<int> MetodoDelegate(List<int> lista);
 
     class Program
     {
-        const int VALOR_MINIMO = 0;
-        const int QUANTIDADE_ELEMENTOS = 1000000;
-        const int QUANTIDADE_EXECUCAO = 10;
+        static int QUANTIDADE_EXECUCAO = 1;
         static void Main()
         {
-            MetodosDeOrdenacao metodosDeOrdenacao = new MetodosDeOrdenacao();
+            MetodosDeOrdenacaoClassicos metodosDeOrdenacaoClassicos = new MetodosDeOrdenacaoClassicos();
+            MetodosDeOrdenacaoMelhorados metodosDeOrdenacaoMelhorados = new MetodosDeOrdenacaoMelhorados();
             Uteis uteis = new Uteis();
 
-            List<int> lista = uteis.GerarListaAleatoria(VALOR_MINIMO, QUANTIDADE_ELEMENTOS);
-            uteis.ImprimirInformacoes(lista, QUANTIDADE_EXECUCAO);
-            Console.WriteLine($"---- Algoritmos de ordenação simples ----");
-            AnalisarTempoMetodo(metodosDeOrdenacao.BubbleSort, lista);
-            AnalisarTempoMetodo(metodosDeOrdenacao.SelectionSort, lista);
-            AnalisarTempoMetodo(metodosDeOrdenacao.InsertionSort, lista);
-            Console.WriteLine($"---- Algoritmos de ordenação complexos eficientes ----");
-            AnalisarTempoMetodo(metodosDeOrdenacao.MergeSort, lista);
-            AnalisarTempoMetodo(metodosDeOrdenacao.HeapSort, lista);
-            AnalisarTempoMetodo(metodosDeOrdenacao.QuickSort, lista);
-            Console.ReadLine();
-        }
+            string caminhoArquivo = uteis.ObterCaminhaoDiretorio();
+            uteis.SolicitarQuantidadeExecucao(QUANTIDADE_EXECUCAO);
+            List<Dictionary<string, List<int>>> listaDicionario = uteis.GerarListasDicionario();
 
-        public static void AnalisarTempoMetodo(MetodoDelegate metodo, List<int> lista)
-        {
-            Console.WriteLine($"{metodo.Method.Name}");
-            long tempo = 0;
-            for (int i = 0; i < QUANTIDADE_EXECUCAO; i++)
+            using (StreamWriter streamWriter = new StreamWriter(caminhoArquivo))
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                metodo(lista);
-                stopwatch.Stop();
-                tempo += stopwatch.ElapsedTicks;
-            }
+                foreach (var dicionario in listaDicionario)
+                {
+                    foreach (var lista in dicionario)
+                    {
+                        Console.WriteLine($"------ {lista.Key} ------");
+                        streamWriter.WriteLine($"************************************************");
+                        streamWriter.WriteLine($"------ {lista.Key} ------");
+                        uteis.ImprimirInformacoes(lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        streamWriter.WriteLine($"********** Métodos Clássicos **********");
+                        streamWriter.WriteLine("---- Algoritmos de ordenação simples ----");
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.BubbleSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.SelectionSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.InsertionSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        streamWriter.WriteLine($"---- Algoritmos de ordenação complexos eficientes ----");
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.MergeSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.HeapSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoClassicos.QuickSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
 
-            TimeSpan mediaExecucao = new TimeSpan(tempo / QUANTIDADE_EXECUCAO);
-            Console.WriteLine($"tempo de execução: {mediaExecucao}\n");
+                        streamWriter.WriteLine($"********** Métodos Melhorados **********");
+                        streamWriter.WriteLine("---- Algoritmos de ordenação simples ----");
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.BubbleSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.SelectionSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.InsertionSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        streamWriter.WriteLine($"---- Algoritmos de ordenação complexos eficientes ----");
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.MergeSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.HeapSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                        uteis.AnalisarTempoMetodo(metodosDeOrdenacaoMelhorados.QuickSort, lista.Value, streamWriter, QUANTIDADE_EXECUCAO);
+                    }
+                }
+            }
         }
     }
 }

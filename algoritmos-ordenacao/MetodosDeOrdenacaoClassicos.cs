@@ -1,9 +1,9 @@
 ﻿namespace algoritmos_ordenacao
 {
-    public class MetodosDeOrdenacao
+    public class MetodosDeOrdenacaoClassicos
     {
         // Percorre a lista várias vezes, comparando elementos adjacentes e trocando-os se estiverem na ordem errada.
-        public void BubbleSort(List<int> lista)
+        public List<int> BubbleSort(List<int> lista)
         {
             var listaOrdenada = new List<int>(lista);
 
@@ -19,10 +19,12 @@
                     }
                 }
             }
+
+            return listaOrdenada;
         }
 
         // Encontra o menor elemento restante e o coloca em sua posição correta na lista.
-        public void SelectionSort(List<int> lista)
+        public List<int> SelectionSort(List<int> lista)
         {
             var listaOrdenada = new List<int>(lista);
 
@@ -43,10 +45,12 @@
                     listaOrdenada[indiceMinimo] = temp;
                 }
             }
+
+            return listaOrdenada;
         }
 
         // Percorre a lista, inserindo cada elemento em sua posição correta na parte já classificada da lista.
-        public void InsertionSort(List<int> lista)
+        public List<int> InsertionSort(List<int> lista)
         {
             var listaOrdenada = new List<int>(lista);
 
@@ -61,58 +65,74 @@
                 }
                 listaOrdenada[j + 1] = chave;
             }
+
+            return listaOrdenada;
         }
 
         // Recursivamente divide a lista em duas metades e as mescla em ordem.
-        public void MergeSort(List<int> lista)
+        public List<int> MergeSort(List<int> lista)
         {
             if (lista.Count <= 1)
-                return;
+                return lista;
 
             int meio = lista.Count / 2;
-            var esquerda = new List<int>(lista.GetRange(0, meio));
-            var direita = new List<int>(lista.GetRange(meio, lista.Count - meio));
+            List<int> metadeEsquerda = new List<int>();
+            List<int> metadeDireita = new List<int>();
 
-            MergeSort(esquerda);
-            MergeSort(direita);
+            for (int i = 0; i < meio; i++)
+            {
+                metadeEsquerda.Add(lista[i]);
+            }
 
-            Merge(esquerda, direita);
+            for (int i = meio; i < lista.Count; i++)
+            {
+                metadeDireita.Add(lista[i]);
+            }
+
+            metadeEsquerda = MergeSort(metadeEsquerda);
+            metadeDireita = MergeSort(metadeDireita);
+
+            return Merge(metadeEsquerda, metadeDireita);
         }
 
         // Combina duas listas ordenadas em uma única lista ordenada.
-        private static void Merge(List<int> esquerda, List<int> direita)
+        private List<int> Merge(List<int> metadeEsquerda, List<int> metadeDireita)
         {
-            var listaOrdenada = new List<int>();
+            List<int> listaOrdenada = new List<int>();
+            int indiceEsquerda = 0;
+            int indiceDireita = 0;
 
-            while (esquerda.Count > 0 && direita.Count > 0)
+            while (indiceEsquerda < metadeEsquerda.Count && indiceDireita < metadeDireita.Count)
             {
-                if (esquerda[0] <= direita[0])
+                if (metadeEsquerda[indiceEsquerda] <= metadeDireita[indiceDireita])
                 {
-                    listaOrdenada.Add(esquerda[0]);
-                    esquerda.RemoveAt(0);
+                    listaOrdenada.Add(metadeEsquerda[indiceEsquerda]);
+                    indiceEsquerda++;
                 }
                 else
                 {
-                    listaOrdenada.Add(direita[0]);
-                    direita.RemoveAt(0);
+                    listaOrdenada.Add(metadeDireita[indiceDireita]);
+                    indiceDireita++;
                 }
             }
 
-            while (esquerda.Count > 0)
+            while (indiceEsquerda < metadeEsquerda.Count)
             {
-                listaOrdenada.Add(esquerda[0]);
-                esquerda.RemoveAt(0);
+                listaOrdenada.Add(metadeEsquerda[indiceEsquerda]);
+                indiceEsquerda++;
             }
 
-            while (direita.Count > 0)
+            while (indiceDireita < metadeDireita.Count)
             {
-                listaOrdenada.Add(direita[0]);
-                direita.RemoveAt(0);
+                listaOrdenada.Add(metadeDireita[indiceDireita]);
+                indiceDireita++;
             }
+
+            return listaOrdenada;
         }
 
         // Extrai o elemento raiz (maior) da árvore heap e o coloca na posição correta.
-        public void HeapSort(List<int> lista)
+        public List<int> HeapSort(List<int> lista)
         {
             var listaOrdenada = new List<int>(lista);
             int n = listaOrdenada.Count;
@@ -128,6 +148,8 @@
 
                 Heapify(listaOrdenada, i, 0);
             }
+
+            return listaOrdenada;
         }
 
         private static void Heapify(List<int> lista, int n, int i)
@@ -153,29 +175,31 @@
         }
 
         // Quick Sort
-        public void QuickSort(List<int> lista)
+        public List<int> QuickSort(List<int> lista)
         {
             var listaOrdenada = new List<int>(lista);
-            QuickSortRecursivo(listaOrdenada, 0, listaOrdenada.Count - 1);
+            QuickSort(listaOrdenada, 0, listaOrdenada.Count - 1);
+
+            return listaOrdenada;
         }
         // Particiona a lista em torno de um pivô e classifica as partições recursivamente.
-        private static void QuickSortRecursivo(List<int> lista, int baixo, int alto)
+        private static void QuickSort(List<int> lista, int inicio, int fim)
         {
-            if (baixo < alto)
+            if (inicio < fim)
             {
-                int indiceParticao = Particionar(lista, baixo, alto);
+                int indiceParticao = Particionar(lista, inicio, fim);
 
-                QuickSortRecursivo(lista, baixo, indiceParticao - 1);
-                QuickSortRecursivo(lista, indiceParticao + 1, alto);
+                QuickSort(lista, inicio, indiceParticao - 1);
+                QuickSort(lista, indiceParticao + 1, fim);
             }
         }
         // Reorganiza a lista de forma que os elementos menores que o pivô estejam à esquerda e os maiores à direita.
-        private static int Particionar(List<int> lista, int baixo, int alto)
+        private static int Particionar(List<int> lista, int inicio, int fim)
         {
-            int pivo = lista[alto];
-            int i = baixo - 1;
+            int pivo = lista[fim];
+            int i = inicio - 1;
 
-            for (int j = baixo; j < alto; j++)
+            for (int j = inicio; j < fim; j++)
             {
                 if (lista[j] < pivo)
                 {
@@ -187,8 +211,8 @@
             }
 
             int temp1 = lista[i + 1];
-            lista[i + 1] = lista[alto];
-            lista[alto] = temp1;
+            lista[i + 1] = lista[fim];
+            lista[fim] = temp1;
 
             return i + 1;
         }
