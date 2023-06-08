@@ -4,18 +4,6 @@ namespace algoritmos_ordenacao
 {
     public class Uteis
     {
-        public List<Dictionary<string, List<int>>> GerarListasDicionario()
-        {
-            List<Dictionary<string, List<int>>> listaDicionario = new List<Dictionary<string, List<int>>>();
-            listaDicionario.Add(GerarListas(0, 1000));
-            listaDicionario.Add(GerarListas(0, 10000));
-            listaDicionario.Add(GerarListas(0, 50000));
-            listaDicionario.Add(GerarListas(0, 100000));
-            listaDicionario.Add(GerarListas(0, 500000));
-            listaDicionario.Add(GerarListas(0, 1000000));
-            return listaDicionario;
-        }
-
         public string ObterCaminhaoDiretorio()
         {
             return $"{AppDomain.CurrentDomain.BaseDirectory}/execucao_{DateTime.Now.ToString("dd_MM_yyyy_hh_mm_ss")}.txt";
@@ -68,7 +56,7 @@ namespace algoritmos_ordenacao
             ValidarOrdenacao(listaOrdenada, metodo.Method.Name, streamWriter);
         }
 
-        private Dictionary<string, List<int>> GerarListas(int minimo, int quantidade)
+        public Dictionary<string, List<int>> GerarListas(int minimo, int quantidade)
         {
             Console.WriteLine("Gerando listas");
             Dictionary<string, List<int>> listas = new Dictionary<string, List<int>>();

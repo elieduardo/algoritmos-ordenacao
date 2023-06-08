@@ -184,7 +184,6 @@
                 return lista;
             }
 
-
             for (int i = n / 2 - 1; i >= 0; i--)
                 Heapify(listaOrdenada, n, i);
 
@@ -234,42 +233,54 @@
             }
 
             QuickSort(listaOrdenada, 0, listaOrdenada.Count - 1);
-
             return listaOrdenada;
         }
-        // Particiona a lista em torno de um pivô e classifica as partições recursivamente.
-        private static void QuickSort(List<int> lista, int inicio, int fim)
-        {
-            if (inicio < fim)
-            {
-                int indiceParticao = Particionar(lista, inicio, fim);
 
-                QuickSort(lista, inicio, indiceParticao - 1);
-                QuickSort(lista, indiceParticao + 1, fim);
+        // Troca os elementos nas posições left e right da lista.
+        static void Swap(List<int> items, int left, int right)
+        {
+            if (left != right)
+            {
+                int temp = items[left];
+                items[left] = items[right];
+                items[right] = temp;
             }
         }
-        // Reorganiza a lista de forma que os elementos menores que o pivô estejam à esquerda e os maiores à direita.
-        private static int Particionar(List<int> lista, int inicio, int fim)
-        {
-            int pivo = lista[fim];
-            int i = inicio - 1;
 
-            for (int j = inicio; j <= fim - 1; j++)
+        // Chama o método QuickSort recursivamente para ordenar a lista.
+        static private void QuickSort(List<int> items, int left, int right)
+        {
+            Random _pivotRng = new Random();
+
+            if (left < right)
             {
-                if (lista[j] <= pivo)
+                int pivotIndex = _pivotRng.Next(left, right);
+
+                int newPivot = Partition(items, left, right, pivotIndex);
+                QuickSort(items, left, newPivot - 1);
+                QuickSort(items, newPivot + 1, right);
+            }
+        }
+        // Responsável por particionar a lista com base no pivô selecionado
+        static private int Partition(List<int> items, int left, int right, int pivotIndex)
+        {
+            int pivotValue = items[pivotIndex];
+
+            Swap(items, pivotIndex, right);
+
+            int storeIndex = left;
+
+            for (int i = left; i < right; i++)
+            {
+                if (items[i].CompareTo(pivotValue) < 0)
                 {
-                    i++;
-                    int temp = lista[i];
-                    lista[i] = lista[j];
-                    lista[j] = temp;
+                    Swap(items, i, storeIndex);
+                    storeIndex += 1;
                 }
             }
 
-            int temp1 = lista[i + 1];
-            lista[i + 1] = lista[fim];
-            lista[fim] = temp1;
-
-            return i + 1;
+            Swap(items, storeIndex, right);
+            return storeIndex;
         }
     }
 }
