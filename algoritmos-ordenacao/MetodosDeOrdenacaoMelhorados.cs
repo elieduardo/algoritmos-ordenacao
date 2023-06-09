@@ -250,17 +250,16 @@
         // Chama o método QuickSort recursivamente para ordenar a lista.
         static private void QuickSort(List<int> items, int left, int right)
         {
-            Random _pivotRng = new Random();
-
             if (left < right)
             {
-                int pivotIndex = _pivotRng.Next(left, right);
+                int pivotIndex = (left + right) / 2;
 
                 int newPivot = Partition(items, left, right, pivotIndex);
                 QuickSort(items, left, newPivot - 1);
                 QuickSort(items, newPivot + 1, right);
             }
         }
+
         // Responsável por particionar a lista com base no pivô selecionado
         static private int Partition(List<int> items, int left, int right, int pivotIndex)
         {
