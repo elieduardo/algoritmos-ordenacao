@@ -12,27 +12,20 @@ Trabalho realizado para analisar resultado e tempo de métodos de ordenação si
 
 ## Resultados
 
-### Teste com 1000 elementos
-![1000 Elementos](/imagens/carga-1000-elementos.png)
+### Teste com lista aleatória
+![Lista aleatória](/imagens/lista-aleatoria.png)
 
-### Teste com 10000 elementos
-![10000 Elementos](/imagens/carga-10000-elementos.png)
+### Teste com lista ordenada
+![Lista ordenada](/imagens/lista-ordenada.png)
 
-### Teste com 50000 elementos
-![50000 Elementos](/imagens/carga-50000-elementos.png)
+### Teste com lista inversamente ordenada
+![Lista inversamente ordenada](/imagens/lista-inversamente-ordenada.png)
 
-### Teste com 100000 elementos
-![100000 Elementos](/imagens/carga-100000-elementos.png)
-
-### Teste com 500000 elementos
-![500000 Elementos](/imagens/carga-500000-elementos.png)
-
-### Teste com 1000000 elementos
-![1000000 Elementos](/imagens/carga-1000000-elementos.png)
-
+### Teste com lista quase ordenada
+![Lista quase ordenada](/imagens/lista-quase-ordenada.png)
 
 ## Configurações do computador utilizado
 ### Processador
-AMD 6350 six- Core 3.90 GHz
+Intel Core i7-7500U 2.70GHz
 ### Memória: 
 8GB
