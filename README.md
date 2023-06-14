@@ -10,6 +10,11 @@ Trabalho realizado para analisar resultado e tempo de métodos de ordenação si
 - Compile o projeto para garantir que não haja erros.
 - Execute o projeto pressionando F5 ou selecionando "Iniciar" no menu "Depurar".
 
+## Executáveis
+- No caminho /executaveis existe um .exe para cada carga
+- É necessário ter instalado o runtime do [[.net 6]](https://download.visualstudio.microsoft.com/download/pr/df42b901-8ce2-4131-941a-b3fa094ff3d8/556da65f7a2f6164bf3df932e030898a/dotnet-sdk-6.0.408-win-x64.exe)
+- Após executado, será gerado um arquivo .txt com os resultado da execução
+
 ## Resultados
 
 ### Teste com lista aleatória
